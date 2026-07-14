@@ -1,3 +1,0 @@
-export default function HomePage() {
-  return <h1> oi mundo </h1>;
-}
