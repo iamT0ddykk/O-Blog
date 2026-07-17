@@ -10,9 +10,8 @@ export function Header() {
       lg:text-7xl/snug lg:py-12
       "
       >
-        <Link href="#">O blog</Link>
+        <Link href="/">O blog</Link>
       </h1>
     </header>
   );
 }
-

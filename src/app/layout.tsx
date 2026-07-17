@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Container } from "../Components/Container";
+import { Header } from "../Components/Header";
+import { Footer } from "../Components/Footer";
 
 export const metadata: Metadata = {
-  title: "O Blog",
-  description: "Site de blog",
+  title: {
+    default: "O Blog",
+    template: "%s - O Blog",
+  },
 };
 
 export default function RootLayout({
@@ -13,7 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <Container>
+          <Header></Header>
+          {children}
+          <Footer></Footer>
+        </Container>
+      </body>
     </html>
   );
 }
