@@ -1,7 +1,8 @@
-import { PostModel } from "@/src/models/post/post-model";
 import { PostRepository } from "./post-repository";
 import { resolve } from "path";
 import { readFile } from "fs/promises";
+import { PostModel } from "@/src/models/post/post-model";
+
 const ROOT_DIR = process.cwd();
 const JSON_POSTS_FILE_PATH = resolve(
   ROOT_DIR,
@@ -10,8 +11,15 @@ const JSON_POSTS_FILE_PATH = resolve(
   "seed",
   "posts.json",
 );
+const SIMULATE_WAIT_IN_MS = 0;
 
 export class JsonPostRepository implements PostRepository {
+  private async simulateWait() {
+    if (SIMULATE_WAIT_IN_MS <= 0) return;
+
+    await new Promise((resolve) => setTimeout(resolve, SIMULATE_WAIT_IN_MS));
+  }
+
   private async readFromDisk(): Promise<PostModel[]> {
     const jsonContent = await readFile(JSON_POSTS_FILE_PATH, "utf-8");
     const parsedJson = JSON.parse(jsonContent);
@@ -20,28 +28,32 @@ export class JsonPostRepository implements PostRepository {
   }
 
   async findAllPublic(): Promise<PostModel[]> {
-    const post = await this.readFromDisk();
-    return post.filter((post) => post.published);
+    await this.simulateWait();
+
+    console.log("\n", "findAllPublic", "\n");
+
+    const posts = await this.readFromDisk();
+    return posts.filter((post) => post.published);
   }
 
   async findById(id: string): Promise<PostModel> {
-    const posts = await this.findAllPublic();
-    const post = await posts.find((post) => post.id === id);
+    await this.simulateWait();
 
-    if (!post) {
-      throw new Error("ID INVALIDO");
-    }
+    const posts = await this.findAllPublic();
+    const post = posts.find((post) => post.id === id);
+
+    if (!post) throw new Error("Post não encontrado para ID");
 
     return post;
   }
 
   async findBySlug(slug: string): Promise<PostModel> {
-    const posts = await this.findAllPublic();
-    const post = await posts.find((post) => post.slug === slug);
+    await this.simulateWait();
 
-    if (!post) {
-      throw new Error("METAL SLUG INVALIDO");
-    }
+    const posts = await this.findAllPublic();
+    const post = posts.find((post) => post.slug === slug);
+
+    if (!post) throw new Error("Post não encontrado para slug");
 
     return post;
   }

@@ -6,7 +6,7 @@ export async function PostFeatured() {
   const posts = await findAllPublicPostsCached();
   const post = posts[0];
 
-  const postLink = `/post/${post.slug}`;
+  const postLink = `/posts/${post.slug}`;
 
   return (
     <section className="grid grid-cols-1 gap-8 sm:grid-cols-2 mb-10">
