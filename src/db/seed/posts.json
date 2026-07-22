@@ -5,7 +5,7 @@
       "title": "Rotina matinal de pessoas altamente eficazes",
       "slug": "rotina-matinal-de-pessoas-altamente-eficazes",
       "excerpt": "O Next.js também é uma boa escolha para quem quer se preocupar com performance e SEO.",
-      "content": "O Next.js também é uma boa escolha para quem quer se preocupar com performance e SEO.",
+      "content": "# Rotina matinal de pessoas altamente eficazes\n\nA forma como você começa o dia influencia diretamente sua **produtividade**, **energia** e **concentração**.\n\n## Hábitos importantes\n\n- **Acordar no mesmo horário** todos os dias.\n- **Beber água** logo após acordar.\n- Fazer **alongamentos** ou alguma atividade física.\n- Planejar as **3 principais tarefas** do dia.\n\n> **Pequenos hábitos**, quando repetidos diariamente, geram **grandes resultados**.\n\n## Exemplo\n\n```javascript\nconst rotina = ['Acordar', 'Beber água', 'Exercício', 'Planejamento'];\n\nrotina.forEach((atividade) => {\n  console.log(atividade);\n});\n```\n\n## Conclusão\n\nNão é preciso ter uma rotina **perfeita**. O mais importante é criar hábitos **consistentes**, que contribuam para uma vida mais **produtiva**, **equilibrada** e **saudável**.",
       "coverImageUrl": "/images/bryen_8.png",
       "published": true,
       "createdAt": "2025-04-08T00:24:38.616Z",
