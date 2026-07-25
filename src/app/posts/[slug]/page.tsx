@@ -20,7 +20,6 @@ export async function generateMetadata({
     description: post.excerpt,
   };
 }
-
 export default async function PostSlugPage({ params }: PostSlugPageProps) {
   const { slug } = await params;
 
