@@ -1,7 +1,8 @@
-'use server'
+"use server";
 
-export async function teste() {
-  console.log('oi')  
+import { revalidatePath } from "next/cache";
+
+export async function revalidateExampleAction() {
+  revalidatePath("posts");
+  revalidatePath("posts-rotina-matinal-de-pessoas-altamente-eficazes");
 }
-
-teste()
