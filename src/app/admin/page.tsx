@@ -1,13 +1,12 @@
-import { PostListAdmin } from "@/src/Components/PostsListAdmin";
 import { SpinLoader } from "@/src/Components/SpinLoader";
 import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminPostPage() {
+export default async function AdminPage() {
   return (
     <Suspense fallback={<SpinLoader></SpinLoader>}>
-      <PostListAdmin></PostListAdmin>
+      <h1>PAGINA ADM</h1>
     </Suspense>
   );
 }
