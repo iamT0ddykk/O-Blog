@@ -34,6 +34,18 @@ export async function PostListAdmin() {
           </div>
         );
       })}
+
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center z-40">
+        <div className="flex items-center flex-col bg-slate-100 p-6 rounded-lg max-w-2xl">
+          <h3>titulo</h3>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe
+          facilis dolore similique in ex ullam nostrum sed nobis laudantium
+          iure, quod repellat suscipit mollitia nihil, explicabo quae quos
+          beatae recusandae?
+          <button>cancel</button>
+          <button>ok</button>
+        </div>
+      </div>
     </>
   );
 }
