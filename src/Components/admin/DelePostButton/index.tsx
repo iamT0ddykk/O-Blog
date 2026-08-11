@@ -1,8 +1,9 @@
 "use client";
 
 import { deletePostAction } from "@/src/actions/post/dele-post-action";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { BiTrash } from "react-icons/bi";
+import { Dialog } from "../../Dialog";
 
 type DeletePostButtonProps = {
   id: string;
@@ -11,13 +12,17 @@ type DeletePostButtonProps = {
 
 export function DeletePostButton({ id, title }: DeletePostButtonProps) {
   const [isPending, startTransition] = useTransition();
-
+  const [showDialog, setShowDialog] = useState(false);
   function handleClick() {
-    if (!confirm("certeza?")) return;
+    setShowDialog(true);
+  }
 
+  function handleConfirm() {
     startTransition(async () => {
       const result = await deletePostAction(id);
+
       alert(`result ${result}`);
+      setShowDialog(false);
     });
   }
 
@@ -33,6 +38,17 @@ export function DeletePostButton({ id, title }: DeletePostButtonProps) {
         {" "}
         <BiTrash size={25} color="red"></BiTrash>{" "}
       </button>
+
+      {showDialog && (
+        <Dialog
+          descriptionText="asd"
+          titleText="asd"
+          isVisible={showDialog}
+          onCancel={() => setShowDialog(false)}
+          onConfirm={() => handleConfirm()}
+          disabled={isPending}
+        ></Dialog>
+      )}
     </>
   );
 }
