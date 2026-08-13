@@ -4,6 +4,7 @@ import { deletePostAction } from "@/src/actions/post/dele-post-action";
 import { useState, useTransition } from "react";
 import { BiTrash } from "react-icons/bi";
 import { Dialog } from "../../Dialog";
+import { toast } from "react-toastify";
 
 type DeletePostButtonProps = {
   id: string;
@@ -21,9 +22,7 @@ export function DeletePostButton({ id, title }: DeletePostButtonProps) {
     startTransition(async () => {
       const result = await deletePostAction(id);
 
-      if (result.error) {
-        alert("erro" + result.error);
-      }
+      toast.error("erro" + result.error);
 
       setShowDialog(false);
     });

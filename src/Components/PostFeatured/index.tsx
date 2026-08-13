@@ -1,9 +1,16 @@
+import ErrorMessage from "../ErrorMessage";
 import { PostCoverImage } from "../PostCoverImage";
 import { PostSummary } from "../PostSummary";
 import { findAllPublicPostsCached } from "@/src/lib/post/queries/public";
 
 export async function PostFeatured() {
   const posts = await findAllPublicPostsCached();
+
+  if (posts.length <= 0)
+    return (
+      <ErrorMessage content="nao tem post" pageTitle="ops" contentTitle="ops" />
+    );
+
   const post = posts[0];
 
   const postLink = `/posts/${post.slug}`;

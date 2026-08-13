@@ -1,4 +1,4 @@
-import { PostListAdmin } from "@/src/Components/PostsListAdmin";
+import { PostListAdmin } from "@/src/Components/admin/PostsListAdmin";
 import { SpinLoader } from "@/src/Components/SpinLoader";
 import { Suspense } from "react";
 

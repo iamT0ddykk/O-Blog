@@ -1,10 +1,20 @@
 import { findAllPostAdmin } from "@/src/lib/post/queries/admin";
 import clsx from "clsx";
 import Link from "next/link";
-import { DeletePostButton } from "../admin/DelePostButton";
+import { DeletePostButton } from "../DelePostButton";
+import ErrorMessage from "../../ErrorMessage";
 
 export async function PostListAdmin() {
   const posts = await findAllPostAdmin();
+
+  if (posts.length <= 0)
+    return (
+      <ErrorMessage
+        content="nao tem posts no db"
+        pageTitle="ops"
+        contentTitle="nao tem posts no DB"
+      />
+    );
 
   return (
     <>
