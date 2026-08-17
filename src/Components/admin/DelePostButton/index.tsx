@@ -43,8 +43,8 @@ export function DeletePostButton({ id, title }: DeletePostButtonProps) {
 
       {showDialog && (
         <Dialog
-          descriptionText="Ao apagar todas as informações serão perdidas..."
-          titleText="Deseja apagar esse post?"
+          title="Deseja apagar o Post?"
+          content="Deseja apagar esse post?"
           isVisible={showDialog}
           onCancel={() => setShowDialog(false)}
           onConfirm={() => handleConfirm()}
