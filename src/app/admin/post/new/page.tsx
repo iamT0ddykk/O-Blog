@@ -6,7 +6,7 @@ export default async function AdminPostNewPage() {
   return (
     <div className="flex flex-col gap-7 p-6">
       <InputText placeholder="digite..."></InputText>
-      <InputText placeholder="digite..."></InputText>
+      <InputText labelText="os" placeholder="digite..."></InputText>
     </div>
   );
 }
