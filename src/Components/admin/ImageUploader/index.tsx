@@ -12,6 +12,19 @@ export function ImageUploader() {
     imgref.current.click();
   }
 
+  function handleChange() {
+    const imgcurrent = imgref.current;
+
+    if (!imgcurrent) return;
+
+    const file = imgcurrent?.files?.[0];
+
+    if (!file) return;
+
+    console.log(file);
+
+  }
+
   return (
     <div className="flex flex-col items-center gap-2">
       <Button type="button" className="self-start" onClick={handleChooseImg}>
@@ -26,6 +39,7 @@ export function ImageUploader() {
         name="file"
         id=""
         accept="image/*"
+        onChange={handleChange}
       />
     </div>
   );
