@@ -3,6 +3,8 @@
 import { useRef } from "react";
 import { Button } from "../../Button";
 import { RiImageUploadFill } from "react-icons/ri";
+import { IMAGE_UPLOAD_MAX_SIZE } from "@/src/lib/constants";
+import { toast } from "react-toastify";
 
 export function ImageUploader() {
   const imgref = useRef<HTMLInputElement>(null);
@@ -21,8 +23,16 @@ export function ImageUploader() {
 
     if (!file) return;
 
-    console.log(file);
+    if (file.size > IMAGE_UPLOAD_MAX_SIZE) {
+      toast.error("imagem muito grande");
+      return;
+    }
+    const formData = new FormData();
 
+    formData.append("file", file);
+    console.log(formData.get("file"));
+
+    imgcurrent.value = "";
   }
 
   return (
