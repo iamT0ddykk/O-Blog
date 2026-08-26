@@ -1,13 +1,16 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useTransition } from "react";
 import { Button } from "../../Button";
 import { RiImageUploadFill } from "react-icons/ri";
 import { IMAGE_UPLOAD_MAX_SIZE } from "@/src/lib/constants";
 import { toast } from "react-toastify";
+import { UploadImageAction } from "@/src/actions/upload/upload-image-action";
 
 export function ImageUploader() {
   const imgref = useRef<HTMLInputElement>(null);
+
+  const [isUploading, startTransition] = useTransition();
 
   function handleChooseImg() {
     if (!imgref.current) return;
@@ -30,7 +33,18 @@ export function ImageUploader() {
     const formData = new FormData();
 
     formData.append("file", file);
-    console.log(formData.get("file"));
+
+    startTransition(async () => {
+      const result = await UploadImageAction();
+
+      if (result.error) {
+        toast.error(result.error);
+        imgcurrent.value = "";
+        return;
+      }
+
+      toast.success(result.url);
+    });
 
     imgcurrent.value = "";
   }
