@@ -18,6 +18,7 @@ export function ImageUploader() {
   }
 
   function handleChange() {
+    toast.dismiss();
     const imgcurrent = imgref.current;
 
     if (!imgcurrent) return;
@@ -31,11 +32,11 @@ export function ImageUploader() {
       return;
     }
     const formData = new FormData();
-
+    
     formData.append("file", file);
 
     startTransition(async () => {
-      const result = await UploadImageAction();
+      const result = await UploadImageAction(formData);
 
       if (result.error) {
         toast.error(result.error);
