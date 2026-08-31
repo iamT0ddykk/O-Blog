@@ -1,16 +1,19 @@
 "use client";
 
-import { useRef, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Button } from "../../Button";
 import { RiImageUploadFill } from "react-icons/ri";
 import { IMAGE_UPLOAD_MAX_SIZE } from "@/src/lib/constants";
 import { toast } from "react-toastify";
 import { UploadImageAction } from "@/src/actions/upload/upload-image-action";
+import { TrashIcon } from "lucide-react";
 
 export function ImageUploader() {
   const imgref = useRef<HTMLInputElement>(null);
 
   const [isUploading, startTransition] = useTransition();
+
+  const [imgUrl, setImgUrl] = useState("");
 
   function handleChooseImg() {
     if (!imgref.current) return;
@@ -32,7 +35,7 @@ export function ImageUploader() {
       return;
     }
     const formData = new FormData();
-    
+
     formData.append("file", file);
 
     startTransition(async () => {
@@ -43,8 +46,8 @@ export function ImageUploader() {
         imgcurrent.value = "";
         return;
       }
-
-      toast.success(result.url);
+      setImgUrl(result.url);
+      toast.success("imagem enviada");
     });
 
     imgcurrent.value = "";
@@ -52,10 +55,42 @@ export function ImageUploader() {
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <Button type="button" className="self-start" onClick={handleChooseImg}>
-        <RiImageUploadFill />
-        Enviar imagems
-      </Button>
+      <div className="flex gap-3">
+        <Button
+          type="button"
+          disabled={isUploading}
+          className="self-start"
+          onClick={handleChooseImg}
+        >
+          <RiImageUploadFill />
+          Enviar imagems
+        </Button>
+        {imgUrl && (
+          <div className="flex flex-col">
+            <Button
+              variant="danger"
+              type="button"
+              onClick={() => {
+                setImgUrl("");
+                toast.success("imagem apagada!");
+              }}
+            >
+              <TrashIcon></TrashIcon> Apagar Imagem
+            </Button>
+          </div>
+        )}
+      </div>
+
+      {imgUrl && (
+        <div className="flex flex-col">
+          <p>
+            <b>url:</b>
+            {imgUrl}
+          </p>
+          {/* eslint-disable-next-line */}
+          <img className="rounded-lg w-100" src={imgUrl} alt="" />
+        </div>
+      )}
 
       <input
         ref={imgref}

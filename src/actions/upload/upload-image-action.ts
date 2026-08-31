@@ -1,7 +1,11 @@
 "use server";
 
-import { IMAGE_UPLOAD_DIR, IMAGE_UPLOAD_MAX_SIZE } from "@/src/lib/constants";
-import { mkdir } from "node:fs/promises";
+import {
+  IMAGE_SERVER_URL,
+  IMAGE_UPLOAD_DIR,
+  IMAGE_UPLOAD_MAX_SIZE,
+} from "@/src/lib/constants";
+import { mkdir, writeFile } from "node:fs/promises";
 import { extname, resolve } from "path";
 
 type uploadImageResult = {
@@ -12,6 +16,9 @@ type uploadImageResult = {
 export async function UploadImageAction(
   formData: FormData,
 ): Promise<uploadImageResult> {
+
+
+
   const makeResult = ({ url = "", error = "" }) => ({ url, error });
   const file = formData.get("file");
 
@@ -29,12 +36,19 @@ export async function UploadImageAction(
   }
 
   const imgextension = extname(file.name);
-  const uniqueImgName = `${Date.now()} ${imgextension}`;
+  const uniqueImgName = `${Date.now()}${imgextension}`;
 
   const fullPath = resolve(process.cwd(), "public", IMAGE_UPLOAD_DIR);
 
   mkdir(fullPath, { recursive: true });
 
-  console.log(uniqueImgName);
-  return makeResult({ url: "url" });
+  const fileArrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(fileArrayBuffer);
+
+  const fileFullPath = resolve(fullPath, uniqueImgName);
+
+  const url = `${IMAGE_SERVER_URL}/${uniqueImgName}`;
+
+  await writeFile(fileFullPath, buffer);
+  return makeResult({ url });
 }
