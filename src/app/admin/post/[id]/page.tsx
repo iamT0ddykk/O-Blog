@@ -19,7 +19,7 @@ export default async function AdminPostIdPage({
     <>
       <div className="flex flex-col bg-slate-300 p-2">
         <h1 className="font-extrabold pb-2">Editar post {id}</h1>
-        <ManagePostForm post></ManagePostForm>
+        <ManagePostForm></ManagePostForm>
       </div>
     </>
   );
