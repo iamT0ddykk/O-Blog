@@ -2,7 +2,7 @@ import { PostModel } from "@/src/models/post/post-model";
 
 export type publicPost = Omit<PostModel, "updatedAt">;
 
-const makePublicPost = (post: PostModel): publicPost => {
+export const makePublicPost = (post: PostModel): publicPost => {
   return {
     id: post.id,
     slug: post.slug,

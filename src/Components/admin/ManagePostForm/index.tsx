@@ -6,14 +6,14 @@ import { InputText } from "../../InputText";
 import { MarkdownEditor } from "../../MarkdownEditor";
 import { InputCheckbox } from "../../InputCheckbox";
 import { ImageUploader } from "../ImageUploader";
-import { PostModel } from "@/src/models/post/post-model";
+import { publicPost } from "@/src/dto/post/dto";
 
 type ManagePostFormProps = {
-  publicPost: PostModel;
+  PublicPost?: publicPost;
 };
 
-export function ManagePostForm({}: ManagePostFormProps) {
-  const [value, setValue] = useState("a");
+export function ManagePostForm({ PublicPost }: ManagePostFormProps) {
+  const [value, setValue] = useState(PublicPost?.content || "");
 
   return (
     <form action="" className="mb-16">
@@ -23,7 +23,7 @@ export function ManagePostForm({}: ManagePostFormProps) {
           name="id"
           placeholder="ID gerado automaticamente"
           type="text"
-          defaultValue={""}
+          defaultValue={PublicPost?.id}
           readOnly
         />
 
@@ -32,7 +32,7 @@ export function ManagePostForm({}: ManagePostFormProps) {
           name="slug"
           placeholder="Slug gerada automaticamente"
           type="text"
-          defaultValue={""}
+          defaultValue={PublicPost?.slug}
           readOnly
         />
 
@@ -41,7 +41,7 @@ export function ManagePostForm({}: ManagePostFormProps) {
           name="author"
           placeholder="Digite o nome do autor"
           type="text"
-          defaultValue={""}
+          defaultValue={PublicPost?.author}
         />
 
         <InputText
@@ -49,7 +49,7 @@ export function ManagePostForm({}: ManagePostFormProps) {
           name="title"
           placeholder="Digite o título"
           type="text"
-          defaultValue={""}
+          defaultValue={PublicPost?.title}
         />
 
         <InputText
@@ -57,7 +57,7 @@ export function ManagePostForm({}: ManagePostFormProps) {
           name="excerpt"
           placeholder="Digite o resumo"
           type="text"
-          defaultValue={""}
+          defaultValue={PublicPost?.excerpt}
         />
 
         <MarkdownEditor
@@ -75,10 +75,14 @@ export function ManagePostForm({}: ManagePostFormProps) {
           name="coverImageUrl"
           placeholder="Digite a url da imagem"
           type="text"
-          defaultValue={""}
+          defaultValue={PublicPost?.coverImageUrl}
         />
-
-        <InputCheckbox labelText="Publicar?" name="published" type="checkbox" />
+        <InputCheckbox
+          defaultChecked={PublicPost?.published}
+          labelText="Publicar?"
+          name="published"
+          type="checkbox"
+        />
 
         <div className="mt-4">
           <Button type="submit">Enviar</Button>
