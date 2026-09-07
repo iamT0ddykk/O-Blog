@@ -1,0 +1,20 @@
+{
+  '$ACTION_REF_1': '',
+  '$ACTION_1:0': '{"id":"60372eb000cf0e290ea6ef525bc1a7b6387ec472b8","bound":"$@1"}',
+  '$ACTION_1:1': '[{"formState":{"id":"","slug":"","title":"","excerpt":"","content":"","coverImageUrl":"","author":"","createdAt":"","published":false},"errors":[]}]',
+  '$ACTION_KEY': 'kf4e790761996921f9f0599acee22dd5a',
+  id: '',
+  slug: '',
+  author: 'sam',
+  title: 'titulosam',
+  excerpt: 'meu excerpt',
+  content: 'blablablabla conteudo',
+  file: File {
+    size: 0,
+    type: 'application/octet-stream',
+    name: 'undefined',
+    lastModified: 1788800919599
+  },
+  coverImageUrl: '',
+  published: 'on'
+}
