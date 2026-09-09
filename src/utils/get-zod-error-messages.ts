@@ -1,11 +1,14 @@
 import { ZodFormattedError } from "zod";
 
 export function getZodErrorMessages<T>(error: ZodFormattedError<T>): string[] {
-  return Object.values(error)
-    .map((field) => {
-      if (Array.isArray(field)) return field;
-      return field?._errors || [];
-    })
-    .flat()
-    .filter(Boolean);
+  const { _errors, ...fieldErrors } = error;
+
+  const nestedErrors = Object.values(fieldErrors).flatMap((field) => {
+    if (field && typeof field === "object" && "_errors" in field) {
+      return (field as { _errors: string[] })._errors;
+    }
+    return [];
+  });
+
+  return [..._errors, ...nestedErrors];
 }

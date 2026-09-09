@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { Button } from "../../Button";
 import { InputText } from "../../InputText";
 import { MarkdownEditor } from "../../MarkdownEditor";
@@ -8,6 +8,7 @@ import { InputCheckbox } from "../../InputCheckbox";
 import { ImageUploader } from "../ImageUploader";
 import { makePartialPublicPost, PublicPost } from "@/src/dto/post/dto";
 import { createPostAction } from "@/src/actions/post/create-post-action";
+import { toast } from "react-toastify";
 
 type ManagePostFormProps = {
   publicPost?: PublicPost;
@@ -23,6 +24,12 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
     createPostAction,
     initialState,
   );
+  useEffect(() => {
+    if (state.errors.length > 0) {
+      toast.dismiss();
+      state.errors.forEach((erro) => toast.error(erro));
+    }
+  }, [state.errors]);
 
   const { formState } = state;
 
