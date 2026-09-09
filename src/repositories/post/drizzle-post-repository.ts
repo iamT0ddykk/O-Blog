@@ -4,6 +4,8 @@ import { PostModel } from "@/src/models/post/post-model";
 import { drizzleDb } from "@/src/db/drizzle";
 import { asyncDelay } from "@/src/utils/async-delay";
 import { SIMULATE_WAIT_IN_MS } from "../constants";
+import { postsTable } from "@/src/db/drizzle/schemas";
+import { eq } from "drizzle-orm";
 
 export class DrizzlePostRepository implements PostRepository {
   async findAllPublic(): Promise<PostModel[]> {
@@ -51,6 +53,35 @@ export class DrizzlePostRepository implements PostRepository {
     });
 
     if (!post) throw new Error("Post não encontrado para ID");
+
+    return post;
+  }
+
+  async create(post: PostModel): Promise<PostModel> {
+    const postExists = await drizzleDb.query.posts.findFirst({
+      where: (posts, { or, eq }) =>
+        or(eq(posts.id, post.id), eq(posts.slug, post.slug)),
+      columns: { id: true },
+    });
+
+    if (!!postExists) {
+      throw new Error("Post com ID ou Slug já existe na base de dados");
+    }
+
+    await drizzleDb.insert(postsTable).values(post);
+    return post;
+  }
+
+  async delete(id: string): Promise<PostModel> {
+    const post = await drizzleDb.query.posts.findFirst({
+      where: (posts, { eq }) => eq(posts.id, id),
+    });
+
+    if (!post) {
+      throw new Error("Post não existe");
+    }
+
+    await drizzleDb.delete(postsTable).where(eq(postsTable.id, id));
 
     return post;
   }
