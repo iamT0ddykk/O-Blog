@@ -85,6 +85,41 @@ export class DrizzlePostRepository implements PostRepository {
 
     return post;
   }
+
+  async update(
+    id: string,
+    newPostData: Omit<PostModel, "id" | "slug" | "createdAt" | "updatedAt">,
+  ): Promise<PostModel> {
+    const oldPost = await drizzleDb.query.posts.findFirst({
+      where: (post, { eq }) => eq(post.id, id),
+    });
+
+    if (!oldPost) {
+      throw new Error("post nao existiu");
+    }
+
+    const updatedAt = new Date().toISOString();
+
+    const postData = {
+      author: newPostData.author,
+      content: newPostData.content,
+      coverImageUrl: newPostData.coverImageUrl,
+      excerpt: newPostData.excerpt,
+      published: newPostData.published,
+      title: newPostData.title,
+      updatedAt: updatedAt,
+    };
+
+    await drizzleDb
+      .update(postsTable)
+      .set(postData)
+      .where(eq(postsTable.id, id));
+
+    return {
+      ...oldPost,
+      ...postData,
+    };
+  }
 }
 
 // (async () => {

@@ -1,6 +1,4 @@
 "use server";
-import { drizzleDb } from "@/src/db/drizzle";
-import { postsTable } from "@/src/db/drizzle/schemas";
 import { makePartialPublicPost, PublicPost } from "@/src/dto/post/dto";
 import { PostCreateSchema } from "@/src/lib/validations";
 import { PostModel } from "@/src/models/post/post-model";
