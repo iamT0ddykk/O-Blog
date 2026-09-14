@@ -8,6 +8,10 @@ import { toast } from "react-toastify";
 import { UploadImageAction } from "@/src/actions/upload/upload-image-action";
 import { TrashIcon } from "lucide-react";
 
+type imageUploaderProps = {
+  disabled?: boolean;
+};
+
 export function ImageUploader() {
   const imgref = useRef<HTMLInputElement>(null);
 
