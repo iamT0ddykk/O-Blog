@@ -42,7 +42,7 @@ export class DrizzlePostRepository implements PostRepository {
       orderBy: (posts, { desc }) => desc(posts.createdAt),
     });
 
-    return posts;
+    return posts; 
   }
 
   async findById(id: string): Promise<PostModel> {

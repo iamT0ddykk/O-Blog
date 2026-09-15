@@ -1,4 +1,5 @@
 "use server";
+
 import { makePartialPublicPost, PublicPost } from "@/src/dto/post/dto";
 import { PostCreateSchema } from "@/src/lib/validations";
 import { PostModel } from "@/src/models/post/post-model";
@@ -65,5 +66,5 @@ export async function createPostAction(
 
   revalidateTag("posts", "max");
 
-  redirect(`/admin/post/${newPost.id}`);
+  redirect(`/admin/post/${newPost.id}?created=1`);
 }
