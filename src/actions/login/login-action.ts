@@ -1,5 +1,6 @@
 "use server";
 
+import { verifyPassword } from "@/src/lib/login/manage-login";
 import { asyncDelay } from "@/src/utils/async-delay";
 
 type loginActionState = {
@@ -16,13 +17,31 @@ export async function loginAction(state: loginActionState, formData: FormData) {
     };
   }
 
-  const username = formData.get("username")?.toString() || "";
-  const password = formData.get("password")?.toString() || "";
+  const username = formData.get("username")?.toString().trim() || "";
+  const password = formData.get("password")?.toString().trim() || "";
 
-  const isValid = username === process.env.LOGIN_USER
+  if (!username || !password) {
+    return {
+      username,
+      error: "erro",
+    };
+  }
 
+  const isUsernameValid = username === process.env.LOGIN_USER;
+  const isPasswordValid = await verifyPassword(
+    password,
+    process.env.LOGIN_PASS || "",
+  );
+  if (!isUsernameValid || !isPasswordValid) {
+    return {
+      username,
+      error: "usuario ou senhas invalidos",
+    };
+  }
+  if (isUsernameValid && isPasswordValid) {
+  }
   return {
-    username: "",
-    error: "",
+    username,
+    error: "usuario logado",
   };
 }
