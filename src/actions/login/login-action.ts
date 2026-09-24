@@ -1,7 +1,11 @@
 "use server";
 
-import { verifyPassword } from "@/src/lib/login/manage-login";
+import {
+  createLoginSession,
+  verifyPassword,
+} from "@/src/lib/login/manage-login";
 import { asyncDelay } from "@/src/utils/async-delay";
+import { redirect } from "next/navigation";
 
 type loginActionState = {
   username: string;
@@ -28,6 +32,7 @@ export async function loginAction(state: loginActionState, formData: FormData) {
   }
 
   const isUsernameValid = username === process.env.LOGIN_USER;
+
   const isPasswordValid = await verifyPassword(
     password,
     process.env.LOGIN_PASS || "",
@@ -38,10 +43,7 @@ export async function loginAction(state: loginActionState, formData: FormData) {
       error: "usuario ou senhas invalidos",
     };
   }
-  if (isUsernameValid && isPasswordValid) {
-  }
-  return {
-    username,
-    error: "usuario logado",
-  };
+
+  await createLoginSession(username);
+  redirect("/admin/login");
 }
