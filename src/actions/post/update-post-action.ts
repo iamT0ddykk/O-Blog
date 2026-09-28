@@ -1,6 +1,7 @@
 "use server";
 
 import { makePartialPublicPost, PublicPost } from "@/src/dto/post/dto";
+import { getLoginSession } from "@/src/lib/login/manage-login";
 import { PostUpdateSchema } from "@/src/lib/validations";
 import { postRepository } from "@/src/repositories/post";
 import { getZodErrorMessages } from "@/src/utils/get-zod-error-messages";
@@ -16,6 +17,7 @@ export async function UpdatePostAction(
   prevState: UpdatePostActionState,
   formData: FormData,
 ): Promise<UpdatePostActionState> {
+  const isAuth = getLoginSession();
   if (!(formData instanceof FormData)) {
     return {
       formState: prevState.formState,
@@ -34,7 +36,12 @@ export async function UpdatePostAction(
 
   const formDataObj = Object.fromEntries(formData.entries());
   const zodParseObj = PostUpdateSchema.safeParse(formDataObj);
-
+  if (!isAuth) {
+    return {
+      formState: makePartialPublicPost(formDataObj),
+      errors: ["faca login para publicar"],
+    };
+  }
   if (!zodParseObj.success) {
     const errors = getZodErrorMessages(zodParseObj.error.format());
 

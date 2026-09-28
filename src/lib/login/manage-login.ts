@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { jwtVerify, SignJWT } from "jose";
+import { redirect } from "next/navigation";
 const jwtSecretKey = process.env.JWT_SECRET_KEY;
 const jwtEncryptedKey = new TextEncoder().encode(jwtSecretKey);
 
@@ -42,6 +43,23 @@ export async function DeleteLoginSession() {
   const cookieStore = await cookies();
 
   cookieStore.delete(loginCookieName);
+}
+
+export async function getLoginSession() {
+  const cookieStore = await cookies();
+  const jwt = cookieStore.get(loginCookieName)?.value;
+
+  if (!jwt) return;
+
+  return verifyJwt(jwt);
+}
+
+export async function requireLoginSessionOrRedirect() {
+  const isAuth = await getLoginSession();
+
+  if (!isAuth) {
+    redirect("/admin/login");
+  }
 }
 
 export async function signJwt(jwtPayload: JwtPayload) {

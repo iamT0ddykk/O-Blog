@@ -1,9 +1,11 @@
 "use server";
 
+import { getLoginSession } from "@/src/lib/login/manage-login";
 import { postRepository } from "@/src/repositories/post";
 import { revalidateTag } from "next/cache";
 
 export async function deletePostAction(id: string) {
+  const isAuth = getLoginSession();
   if (!id || typeof id !== "string") {
     return {
       error: "dados invalido",
@@ -11,6 +13,12 @@ export async function deletePostAction(id: string) {
   }
 
   let post;
+
+  if (!isAuth) {
+    return {
+      error: "faca login denovo",
+    };
+  }
 
   try {
     post = await postRepository.delete(id);

@@ -1,6 +1,7 @@
 "use server";
 
 import { makePartialPublicPost, PublicPost } from "@/src/dto/post/dto";
+import { getLoginSession } from "@/src/lib/login/manage-login";
 import { PostCreateSchema } from "@/src/lib/validations";
 import { PostModel } from "@/src/models/post/post-model";
 import { postRepository } from "@/src/repositories/post";
@@ -20,6 +21,8 @@ export async function createPostAction(
   prevState: CreatePostActionState,
   formData: FormData,
 ): Promise<CreatePostActionState> {
+  const isAuth = getLoginSession();
+
   if (!(formData instanceof FormData)) {
     return {
       formState: prevState.formState,
@@ -48,6 +51,13 @@ export async function createPostAction(
     id: uuidV4(),
     slug: makeSlugFromText(validPostData.title),
   };
+
+  if (!isAuth) {
+    return {
+      formState: makePartialPublicPost(formDataObj),
+      errors: ["faca login para publicar"],
+    };
+  }
 
   try {
     await postRepository.create(newPost);
