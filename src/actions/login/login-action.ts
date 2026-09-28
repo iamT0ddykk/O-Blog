@@ -6,10 +6,12 @@ import {
 } from "@/src/lib/login/manage-login";
 import { asyncDelay } from "@/src/utils/async-delay";
 import { redirect } from "next/navigation";
+import { toast } from "react-toastify";
 
 type loginActionState = {
   username: string;
   error: string;
+  redi?: string;
 };
 
 export async function loginAction(state: loginActionState, formData: FormData) {
@@ -45,5 +47,6 @@ export async function loginAction(state: loginActionState, formData: FormData) {
   }
 
   await createLoginSession(username);
-  redirect("/admin/login");
+
+  redirect("/admin/post");
 }
