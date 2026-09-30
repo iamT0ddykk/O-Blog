@@ -1,36 +1,73 @@
+"use client";
+
+import { logoutAction } from "@/src/actions/login/logout-action";
+import clsx from "clsx";
+import {
+  FileTextIcon,
+  HourglassIcon,
+  HouseIcon,
+  LogOutIcon,
+  PlusIcon,
+} from "lucide-react";
 import Link from "next/link";
-import { FaFileAlt, FaPlus } from "react-icons/fa";
-import { FaHouse } from "react-icons/fa6";
+import { useTransition } from "react";
 
 export function MenuAdmin() {
+  const [isPending, startTransition] = useTransition();
+
+  const linkClasses = clsx(
+    "[&>svg]:w-[16px] [&>svg]:h-[16px] px-4",
+    "flex items-center justify-start gap-2 cursor-pointer",
+    "transition hover:bg-slate-800 rounded-lg",
+    "h-10",
+    "shrink-0",
+  );
+  const navClasses = clsx(
+    "bg-slate-900 text-slate-100 rounded-lg",
+    "flex flex-col  mb-8",
+    "sm:flex-row sm:flex-wrap",
+    "sm:overflow-visible sm:h-auto",
+  );
+  function handleLogout(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    e.preventDefault();
+
+    startTransition(async () => {
+      await logoutAction();
+    });
+  }
+
   return (
-    <>
-      <nav className="flex  gap-5 text-2xl bg-slate-900 text-slate-100 rounded-lg overflow-auto ">
-        <a
-          href="/"
-          target="_blank"
-          className="flex hover:bg-slate-800 self-center p-5"
-        >
-          <FaHouse size={20} className="flex self-center mx-2" />
-          Home
-        </a>
+    <nav className={navClasses}>
+      <a className={linkClasses} href="/" target="_blank">
+        <HouseIcon />
+        Home
+      </a>
 
-        <Link
-          className="hover:bg-slate-800 flex items-center mx-2 px-5 p-5"
-          href={"/admin/post"}
-        >
-          <FaFileAlt size={20} />
-          Posts
-        </Link>
+      <Link className={linkClasses} href="/admin/post">
+        <FileTextIcon />
+        Posts
+      </Link>
 
-        <Link
-          className="flex hover:bg-slate-800 items-center mx-2 px-5 p-5"
-          href={"/admin/post/new"}
-        >
-          <FaPlus size={20} />
-          Criar post
-        </Link>
-      </nav>
-    </>
+      <Link className={linkClasses} href="/admin/post/new">
+        <PlusIcon />
+        Criar post
+      </Link>
+
+      <a onClick={handleLogout} href="#" className={linkClasses}>
+        {isPending && (
+          <>
+            <HourglassIcon />
+            Aguarde...
+          </>
+        )}
+
+        {!isPending && (
+          <>
+            <LogOutIcon />
+            Sair
+          </>
+        )}
+      </a>
+    </nav>
   );
 }
