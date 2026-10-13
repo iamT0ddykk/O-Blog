@@ -9,23 +9,20 @@ export async function proxy(req: NextRequest) {
   const shouldBeAuth = isAdminPage && isLoginPage;
 
   const shouldRedirect = shouldBeAuth && isGetMethod;
-
+  console.log(shouldRedirect);
   const jwtSession = req.cookies.get(
     process.env.LOGIN_COOKIE_NAME || "loginSession",
   )?.value;
 
   const isAuth = await verifyJwt(jwtSession);
 
+  /*
   if (!isAuth) {
-    const url = new URL("admin/login", req.url);
+    const url = new URL("/admin/login", req.url);
 
     return NextResponse.redirect(url);
   }
-
+ */
   console.log({ isAuth });
   return NextResponse.next();
 }
-
-export const config = {
-  matcher: "/admin/:path*",
-};

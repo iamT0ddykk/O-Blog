@@ -18,7 +18,10 @@ export async function PostListAdmin() {
 
   return (
     <>
-      <div className="text-4xl py-16">postpage</div>
+      <div className=" py-16">
+        <p className="text-4xl">PostPage </p>
+        <p> Total de Posts: {posts.length} </p>
+      </div>
 
       {posts.map((post) => {
         return (
