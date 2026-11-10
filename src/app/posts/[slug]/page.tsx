@@ -1,3 +1,4 @@
+import { OpnionSection } from "@/src/Components/OpnionSection";
 import { SinglePost } from "@/src/Components/SinglePost";
 import { SpinLoader } from "@/src/Components/SpinLoader";
 import { findPublicPostBySlugCached } from "@/src/lib/post/queries/public";
@@ -10,7 +11,9 @@ type PostSlugPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata({params}: PostSlugPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PostSlugPageProps): Promise<Metadata> {
   const { slug } = await params;
 
   const post = await findPublicPostBySlugCached(slug);
@@ -21,13 +24,13 @@ export async function generateMetadata({params}: PostSlugPageProps): Promise<Met
   };
 }
 
-
 export default async function PostSlugPage({ params }: PostSlugPageProps) {
   const { slug } = await params;
 
   return (
     <Suspense fallback={<SpinLoader></SpinLoader>}>
       <SinglePost slug={slug}></SinglePost>
+      <OpnionSection></OpnionSection>
     </Suspense>
   );
 }
